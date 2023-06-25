@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+   <main class="container">
+    <div class="row">
+        <section class="col-md-6 offset-md-3 mt-5">
+                <h1 class="text-center">Tasks</h1>
+
+            <ul class="list-group">
+            {% for task in tasks %}
+    
+                <li class="list-group-item">
+    
+                        <div class="modal-header">
+                            {% if task.important %}
+                            <strong class="modal-title">{{task.title}}</strong>
+                            {% else %}
+                            <h5>{{task.title}}</h5>
+                            {% endif %}
+        
+                        </div>
+                    
+    
+                        <div class="modal-body">
+                            <p class="bg-warning">{{task.description}}</p>
+                            <p>{{task.datecompleted| date:'M j Y:i'}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'task_detail' task.id %}" class="btn btn-warning" role="button" >Edit</a>
+                            <form action="{% url 'complete_task' task.id %}" method="POST">
+                                {% csrf_token %}
+                            
+                                <button class="btn btn-success">Complete</button>
+                            </form>
+                            <form action="{% url 'delete_task' task.id %}" method="POST">
+                                {% csrf_token %}
+                            
+                                <button class="btn btn-danger">Delete</button>
+                               </form>
+                        </div>
+    
+                        
+                                  
+    
+                    
+                </li>
+    
+            
+           
+            {% endfor %}
+    
+        </ul>
+        
+        <a class="btn btn-success mt-4" href="/tasks/create/" role="button" >New Task</a>
+        
+        </section>
+    </div>
+   </main>
+
+   
+{% endblock %}
